@@ -44,32 +44,40 @@ module Enumerable
       return array
     end
   end
-  def my_all?
+  def my_all?(x=0)
     i = 0
-    j = 0
-    while i <= size
-      if self[i]
-        j += 1
-        if j >= size
-          yield(true)
-        else
-          yield(false)
+    array = []
+    while i < size
+      if block_given?
+        if yield(self[i])
+            array.push(self[i])
+            return true
+          else
+            return false
         end
       else
-        break
+          if self[i]
+            array.push(self[i])
+            return true
+          else
+            return false
+          end
       end
       i += 1
+    end
+    if array.empty?
+      return true
     end
   end
   def my_any?
     i = 0
-    while i <= size
-      i += 1
+    while i < size
       if self[i] = true || self.empty?
         yield(self)
       else
         break
       end
+      i += 1
     end
   end
   def my_none?
