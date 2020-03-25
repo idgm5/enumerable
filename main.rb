@@ -2,22 +2,34 @@ module Enumerable
   def my_each
     i = 0
     while i <= size
-      yield(self[i])
+      if block_given?
+        yield(self[i])
+      else
+        break
+      end
       i += 1
     end
   end
   def my_each_with_index
     i = 0
     while i <= size
-      yield(self[i], i)
+      if block_given?
+        yield(self[i], i)
+      else
+        break
+      end
       i += 1
     end
   end
   def my_select
     j = 0
     while j <= size
-      if self[i] = true
-        yield(self[i])
+      if block_given?
+        if self[j] = true
+          yield(self[j])
+        end
+      else
+        break
       end
       j += 1
     end
