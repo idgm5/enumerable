@@ -1,7 +1,7 @@
 module Enumerable
   def my_each
     i = 0
-    while i <= size
+    while i < size
       if block_given?
         yield(self[i])
       else
@@ -10,9 +10,13 @@ module Enumerable
       i += 1
     end
   end
-  def my_each_with_index
-    i = 0
-    while i <= size
+  def my_each_with_index(x=0)
+    if x == 0
+      i = 0
+    else
+      i = 0 + x
+    end
+    while i < size
       if block_given?
         yield(self[i], i)
       else
@@ -23,9 +27,9 @@ module Enumerable
   end
   def my_select
     j = 0
-    while j <= size
+    self.length.times do |x|
       if block_given?
-        if self[j] = true
+        if self[j].include?(x)
           yield(self[j])
         end
       else
@@ -38,14 +42,17 @@ module Enumerable
     i = 0
     j = 0
     while i <= size
-      if self[i] = true
+      if self[i]
         j += 1
         if j >= size
-          yield(self)
+          yield(true)
+        else
+          yield(false)
         end
       else
         break
       end
+      i += 1
     end
   end
   def my_any?
