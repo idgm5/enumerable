@@ -26,16 +26,22 @@ module Enumerable
     end
   end
   def my_select
-    j = 0
-    self.length.times do |x|
+    i = 0
+    array = []
+    while i < size
       if block_given?
-        if self[j].include?(x)
-          yield(self[j])
+        if yield(self[i])
+          array.push(self[i])
         end
       else
         break
       end
-      j += 1
+      i += 1
+    end
+    if array.empty?
+      return nil
+    else
+      return array
     end
   end
   def my_all?
