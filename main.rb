@@ -2,26 +2,17 @@ module Enumerable
   def my_each
     i = 0
     while i < size
-      if block_given?
+      return self[i] unless block_given?
         yield(self[i])
-      else
-        break
-      end
       i += 1
     end
   end
   def my_each_with_index(x=0)
-    if x == 0
-      i = 0
-    else
-      i = 0 + x
-    end
+    return i = 0 unless x.positive?
+        i = 0 + x
     while i < size
-      if block_given?
+      return self[i], i unless block_given?
         yield(self[i], i)
-      else
-        break
-      end
       i += 1
     end
   end
@@ -34,7 +25,9 @@ module Enumerable
           array.push(self[i])
         end
       else
-        break
+        if self[i]
+          array.push(self[i])
+        end
       end
       i += 1
     end
@@ -76,7 +69,7 @@ module Enumerable
       return true
     end
   end
-  def my_any?(x=0)
+  def my_any?(x = 0)
     i = 0
     array = []
     while i < size
@@ -101,7 +94,7 @@ module Enumerable
       return true
     end
   end
-  def my_none?(x=0)
+  def my_none?(x = 0)
     i = 0
     array = []
     while i < size
@@ -126,7 +119,7 @@ module Enumerable
       return true
     end
   end
-  def my_count(x=nil)
+  def my_count(x = nil)
     i = 0
     j = 0
     o = 0
@@ -149,7 +142,7 @@ module Enumerable
       return j
     end
   end
-  def my_map(x=0)
+  def my_map(x = 0)
     i = 0
     array = *self
     result = []
@@ -163,7 +156,7 @@ module Enumerable
     end
     return result
   end
-  def my_inject(x=0, y=0)
+  def my_inject(x = 0, y = 0)
     i  = 0
     array = *self
     result = x
