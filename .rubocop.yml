@@ -6,8 +6,6 @@ AllCops:
 
   DisplayCopNames: true
 
-Metrics/LineLength:
-  Max: 120
 Metrics/MethodLength:
   Max: 30
 Metrics/ModuleLength:
@@ -45,3 +43,5 @@ Layout/ExtraSpacing:
 Layout/MultilineMethodCallIndentation:
   Enabled: true
   EnforcedStyle: indented
+Layout/LineLength:
+  Max: 120
