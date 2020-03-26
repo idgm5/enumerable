@@ -28,8 +28,8 @@ module Enumerable
     while i < size
       if block_given?
         array.push(self[i]) if yield(self[i])
-      else
-        array.push(self[i]) if self[i]
+      elsif self[i]
+        array.push(self[i])
       end
       i += 1
     end
@@ -63,7 +63,7 @@ module Enumerable
   def my_any?(_x = 0)
     i = 0
     array = []
-    while i < size
+    size.times do
       if block_given?
         return false unless yield(self[i])
 
@@ -75,7 +75,6 @@ module Enumerable
         array.push(self[i])
         return true
       end
-      i += 1
     end
     return true if array.empty?
   end
@@ -83,7 +82,7 @@ module Enumerable
   def my_none?(_x = 0)
     i = 0
     array = []
-    while i < size
+    size.times do
       if block_given?
         return true unless yield(self[i])
         array.push(self[i])
@@ -93,7 +92,6 @@ module Enumerable
         array.push(self[i])
         return false
       end
-      i += 1
     end
     return true if array.empty?
   end
@@ -111,11 +109,8 @@ module Enumerable
       end
       i += 1
     end
-    if o.positive?
-      return o
-    else
-      return j
-    end
+    return o if o.positive?
+    j
   end
 
   def my_map(_x = 0)
@@ -133,10 +128,10 @@ module Enumerable
     result
   end
 
-  def my_inject(x = 0, _y = 0)
+  def my_inject(argv = 0, _y = 0)
     i = 0
     array = *self
-    result = x
+    result = argv
     result_no_block = []
     while i < size
       if block_given?
@@ -146,10 +141,8 @@ module Enumerable
       end
       i += 1
     end
-    if block_given?
-      return result
-    else
-      return result_no_block.sum
-    end
+
+    return result if block_given?
+    result_no_block.sum
   end
 end
