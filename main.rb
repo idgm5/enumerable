@@ -27,9 +27,9 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-          array.push(self[i]) if yield(self[i])
+        array.push(self[i]) if yield(self[i])
       else
-          array.push(self[i]) if self[i]
+        array.push(self[i]) if self[i]
       end
       i += 1
     end
@@ -37,38 +37,34 @@ module Enumerable
     array
   end
 
-  def my_all?(argv = 0)
+  def my_all?(_argv = 0)
     i = 0
     j = 0
     array = []
     while i < size
       if block_given?
         if yield(self[i])
-            j += 1
-            array.push(self[i])
-            if j == size
-              return true
-            end
-          else
-            return false
+          j += 1
+          array.push(self[i])
+          return true if j == size
+        else
+          return false
         end
       else
-          if self[i]
-            j += 1
-            array.push(self[i])
-            if j == size
-              return true
-            end
-          else
-            return false
-          end
+        if self[i]
+          j += 1
+          array.push(self[i])
+          return true if j == size
+        else
+          return false
+        end
       end
       i += 1
     end
     return true if array.empty?
   end
 
-  def my_any?(x = 0)
+  def my_any?(_x = 0)
     i = 0
     array = []
     while i < size
@@ -89,12 +85,10 @@ module Enumerable
       end
       i += 1
     end
-    if array.empty?
-      return true
-    end
+    return true if array.empty?
   end
 
-  def my_none?(x = 0)
+  def my_none?(_x = 0)
     i = 0
     array = []
     while i < size
@@ -115,9 +109,7 @@ module Enumerable
       end
       i += 1
     end
-    if array.empty?
-      return true
-    end
+    return true if array.empty?
   end
 
   def my_count(x = nil)
@@ -126,14 +118,10 @@ module Enumerable
     o = 0
     while i < size
       if x.is_a? Numeric
-        if self[i] == x
-          j += 1
-        end
+        j += 1 if self[i] == x
       elsif x.nil?
-          j += 1
-          unless self[i]
-            o += 1
-          end
+        j += 1
+        o += 1 unless self[i]
       end
       i += 1
     end
@@ -144,7 +132,7 @@ module Enumerable
     end
   end
 
-  def my_map(x = 0)
+  def my_map(_x = 0)
     i = 0
     array = *self
     result = []
@@ -156,11 +144,11 @@ module Enumerable
       end
       i += 1
     end
-    return result
+    result
   end
 
-  def my_inject(x = 0, y = 0)
-    i  = 0
+  def my_inject(x = 0, _y = 0)
+    i = 0
     array = *self
     result = x
     result_no_block = []
@@ -178,5 +166,4 @@ module Enumerable
       return result_no_block.sum
     end
   end
-
 end
