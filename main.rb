@@ -9,10 +9,11 @@ module Enumerable
     end
   end
 
-  def my_each_with_index(x = 0)
-    return i = 0 unless x.positive?
+  def my_each_with_index(argv = 0)
+    i = 0
+    return i unless argv.positive?
 
-    i = 0 + x
+    i = 0 + argv
     while i < size
       return self[i], i unless block_given?
 
@@ -26,21 +27,15 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-        if yield(self[i])
-          array.push(self[i])
-        end
+        return array.push(self[i]) if yield(self[i])
       else
-        if self[i]
-          array.push(self[i])
-        end
+        return array.push(self[i]) if self[i]
       end
       i += 1
     end
-    if array.empty?
-      return nil
-    else
-      return array
-    end
+    return array unless array.empty?
+
+    return nil
   end
 
   def my_all?(x=0)
@@ -186,5 +181,5 @@ module Enumerable
       return result_no_block.sum
     end
   end
-  
+
 end
