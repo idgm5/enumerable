@@ -29,9 +29,7 @@ module Enumerable
       if block_given?
         array.push(self[i]) if yield(self[i])
       else
-        if self[i]
-          array.push(self[i])
-        end
+        array.push(self[i]) if self[i]
       end
       i += 1
     end
@@ -47,15 +45,15 @@ module Enumerable
       if block_given?
         return false unless yield(self[i])
 
-          j += 1
-          array.push(self[i])
-          return true if j == size
+        j += 1
+        array.push(self[i])
+        return true if j == size
       else
         return false unless self[i]
 
-          j += 1
-          array.push(self[i])
-          return true if j == size
+        j += 1
+        array.push(self[i])
+        return true if j == size
       end
       i += 1
     end
@@ -69,13 +67,13 @@ module Enumerable
       if block_given?
         return false unless yield(self[i])
 
-          array.push(self[i])
-          return true
+        array.push(self[i])
+        return true
       else
         return false unless self[i]
 
-          array.push(self[i])
-          return true
+        array.push(self[i])
+        return true
       end
       i += 1
     end
@@ -88,12 +86,12 @@ module Enumerable
     while i < size
       if block_given?
         return true unless yield(self[i])
-          array.push(self[i])
-          return false
+        array.push(self[i])
+        return false
       else
         return true unless self[i]
-          array.push(self[i])
-          return false
+        array.push(self[i])
+        return false
       end
       i += 1
     end
