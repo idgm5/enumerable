@@ -102,7 +102,7 @@ module Enumerable
     j = 0
     o = 0
     while i < size
-      if x.is_a? Numeric
+      if argv.is_a? Numeric
         j += 1 if self[i] == argv
       elsif argv.nil?
         j += 1
