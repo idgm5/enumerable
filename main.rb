@@ -27,18 +27,17 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-        return array.push(self[i]) if yield(self[i])
+          array.push(self[i]) if yield(self[i])
       else
-        return array.push(self[i]) if self[i]
+          array.push(self[i]) if self[i]
       end
       i += 1
     end
-    return array unless array.empty?
-
-    return nil
+    return nil if array.empty?
+    array
   end
 
-  def my_all?(x=0)
+  def my_all?(argv = 0)
     i = 0
     j = 0
     array = []
@@ -66,9 +65,7 @@ module Enumerable
       end
       i += 1
     end
-    if array.empty?
-      return true
-    end
+    return true if array.empty?
   end
 
   def my_any?(x = 0)
