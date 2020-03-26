@@ -29,7 +29,9 @@ module Enumerable
       if block_given?
         array.push(self[i]) if yield(self[i])
       else
-        array.push(self[i]) if self[i]
+        if self[i]
+          array.push(self[i])
+        end
       end
       i += 1
     end
@@ -43,21 +45,17 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-        if yield(self[i])
+        return false unless yield(self[i])
+
           j += 1
           array.push(self[i])
           return true if j == size
-        else
-          return false
-        end
       else
-        if self[i]
+        return false unless self[i]
+
           j += 1
           array.push(self[i])
           return true if j == size
-        else
-          return false
-        end
       end
       i += 1
     end
@@ -69,19 +67,15 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-        if yield(self[i])
+        return false unless yield(self[i])
+
           array.push(self[i])
           return true
-        else
-          return false
-        end
       else
-        if self[i]
+        return false unless self[i]
+
           array.push(self[i])
           return true
-        else
-          return false
-        end
       end
       i += 1
     end
@@ -93,33 +87,27 @@ module Enumerable
     array = []
     while i < size
       if block_given?
-        if yield(self[i])
+        return true unless yield(self[i])
           array.push(self[i])
           return false
-        else
-          return true
-        end
       else
-        if self[i]
+        return true unless self[i]
           array.push(self[i])
           return false
-        else
-          return true
-        end
       end
       i += 1
     end
     return true if array.empty?
   end
 
-  def my_count(x = nil)
+  def my_count(argv = nil)
     i = 0
     j = 0
     o = 0
     while i < size
       if x.is_a? Numeric
-        j += 1 if self[i] == x
-      elsif x.nil?
+        j += 1 if self[i] == argv
+      elsif argv.nil?
         j += 1
         o += 1 unless self[i]
       end
