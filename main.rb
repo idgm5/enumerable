@@ -149,8 +149,19 @@ module Enumerable
       return j
     end
   end
-  def my_map
-
+  def my_map(x=0)
+    i = 0
+    array = *self
+    result = []
+    while i < size
+      if block_given?
+        result.push(yield(array[i]))
+      else
+        result.push(array[i])
+      end
+      i += 1
+    end
+    return result
   end
   def my_inject
 
