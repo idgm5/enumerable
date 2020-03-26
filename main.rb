@@ -34,6 +34,7 @@ module Enumerable
       i += 1
     end
     return nil if array.empty?
+
     array
   end
 
@@ -60,7 +61,7 @@ module Enumerable
     return true if array.empty?
   end
 
-  def my_any?(_x = 0)
+  def my_any?(_argv = 0)
     i = 0
     array = []
     size.times do
@@ -79,18 +80,18 @@ module Enumerable
     return true if array.empty?
   end
 
-  def my_none?(_x = 0)
+  def my_none?(_argv = 0)
     i = 0
     array = []
     size.times do
       if block_given?
         return true unless yield(self[i])
+
         array.push(self[i])
-        return false
       else
         return true unless self[i]
+
         array.push(self[i])
-        return false
       end
     end
     return true if array.empty?
@@ -110,10 +111,11 @@ module Enumerable
       i += 1
     end
     return o if o.positive?
+
     j
   end
 
-  def my_map(_x = 0)
+  def my_map(_argv = 0)
     i = 0
     array = *self
     result = []
@@ -128,7 +130,7 @@ module Enumerable
     result
   end
 
-  def my_inject(argv = 0, _y = 0)
+  def my_inject(argv = 0, _argv = 0)
     i = 0
     array = *self
     result = argv
@@ -143,6 +145,7 @@ module Enumerable
     end
 
     return result if block_given?
+    
     result_no_block.sum
   end
 end
