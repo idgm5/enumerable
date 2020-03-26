@@ -163,7 +163,23 @@ module Enumerable
     end
     return result
   end
-  def my_inject
-
+  def my_inject(x=0, y=0)
+    i  = 0
+    array = *self
+    result = x
+    result_no_block = []
+    while i < size
+      if block_given?
+        result = yield(result, array[i])
+      else
+        result_no_block.push(array[i])
+      end
+      i += 1
+    end
+    if block_given?
+      return result
+    else
+      return result_no_block.sum
+    end
   end
 end
