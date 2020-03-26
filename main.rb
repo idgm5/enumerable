@@ -145,7 +145,7 @@ module Enumerable
     end
 
     return result if block_given?
-    
+
     result_no_block.sum
   end
 end
