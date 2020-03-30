@@ -2,7 +2,7 @@ require './main.rb'
 
 test_array1 = [11, 2, 3, 56]
 test_array2 = %w[a b c d]
-
+test_array3 = %w[a b c]
 # my_each
 p 'my_each'
 test_array1.my_each { |x| p x }
@@ -13,6 +13,7 @@ p test_array2.my_each
 p 'my_each-with_index'
 test_array1.my_each_with_index { |x, y| p "item: #{x}, index: #{y}" }
 test_array2.my_each_with_index(2) { |x, y| p "item: #{x}, index: #{y}" }
+test_array3.my_each_with_index { |item, index| p "#{index}:#{item}" }
 p test_array2.my_each_with_index
 
 # my_select

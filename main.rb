@@ -10,8 +10,7 @@ module Enumerable
   end
 
   def my_each_with_index(argv = 0)
-    i = 0
-    return i unless argv.positive?
+    i = 0 unless argv.positive?
 
     i = 0 + argv
     while i < size
