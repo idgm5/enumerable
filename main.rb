@@ -2,7 +2,7 @@ module Enumerable
   def my_each
     i = 0
     while i < size
-      return self[i] unless block_given?
+      return to_enum unless block_given?
 
       yield(self[i])
       i += 1
@@ -10,12 +10,11 @@ module Enumerable
   end
 
   def my_each_with_index(argv = 0)
-    i = 0
-    return i unless argv.positive?
+    i = 0 unless argv.positive?
 
     i = 0 + argv
     while i < size
-      return self[i], i unless block_given?
+      return to_enum unless block_given?
 
       yield(self[i], i)
       i += 1
@@ -28,8 +27,8 @@ module Enumerable
     while i < size
       if block_given?
         array.push(self[i]) if yield(self[i])
-      elsif self[i]
-        array.push(self[i])
+      else
+        to_enum
       end
       i += 1
     end
@@ -123,7 +122,7 @@ module Enumerable
       if block_given?
         result.push(yield(array[i]))
       else
-        result.push(array[i])
+        return to_enum
       end
       i += 1
     end
