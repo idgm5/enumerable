@@ -3,7 +3,6 @@
 > Recreated enumerable methods using ruby
 
 ## Language
-
 - Ruby
 
 ## Author
