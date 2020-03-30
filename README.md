@@ -16,7 +16,7 @@
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](issues/).
+Feel free to submit a new suggestion at [issues page](issues/).
 
 ## Show your support
 
