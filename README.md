@@ -6,6 +6,7 @@
 - Ruby
 
 ## Author
+
 👤 **Isaac Gonzalez**
 
 - Github: [@ghamtre](https://github.com/ghamtre)
