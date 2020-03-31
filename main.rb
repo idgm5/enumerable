@@ -81,21 +81,27 @@ module Enumerable
     false
   end
 
-  def my_none?(_argv = 0)
+  def my_none?(argv = nil)
     i = 0
     array = []
-    size.times do
+    while i < size
       if block_given?
-        return true unless yield(self[i])
-
-        array.push(self[i])
+        return false if yield(self[i])
       else
-        return true unless self[i]
-
+        if argv.is_a? Class
+          return false if self[i].is_a? argv
+        elsif argv.is_a? Regexp
+          return false if self[i].match(argv)
+        elsif argv.is_a? Numeric
+          return false if self[i] == argv
+        end
+        return false if argv.nil?
         array.push(self[i])
       end
+      i += 1
     end
     return true if array.empty?
+    true
   end
 
   def my_count(argv = nil)

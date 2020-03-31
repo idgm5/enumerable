@@ -56,17 +56,12 @@ p [1, 1].my_any?(1) # true
 
 # my_none?
 p 'my_none?'
-p %w[ant bear cat].my_none?(/d/) #=> true
-p %w[ant bear cat].my_none? { |word| word.length == 5 } #=> true
-p %w[ant bear cat].my_none? { |word| word.length >= 4 } #=> false
-p [1, 3.14, 42].my_none?(Float) #=> false
-p [].my_none? #=> true
-p [nil].my_none? #=> true
-p [nil, false].my_none? #=> true
-p [nil, false, true].my_none? #=> false
-p [1, 2, 3].my_none?(1) #=> false
-p [1, 2, 3].my_none?(4) #=> true
 
+p [1, 2 ,3].my_none?{|num| num <= 3}
+p [1, 2 ,3].my_none?
+p [1, 2 ,3].my_none?(String)
+p [1,2,3,4,5].my_none?(2)
+p [1, 'dog', 'door', 'rod'].my_none?(1)
 # my_count
 p 'my_count'
 ary = [1, 2, 4, 2]
