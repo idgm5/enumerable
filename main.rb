@@ -10,9 +10,8 @@ module Enumerable
   end
 
   def my_each_with_index(argv = 0)
-    i = 0 unless argv.positive?
-
-    i = 0 + argv
+    i = 0
+    i = 0 + argv if argv.positive?
     while i < size
       return to_enum unless block_given?
 
@@ -45,7 +44,7 @@ module Enumerable
         return false unless yield(self[i])
       else
         if argv.is_a? Class
-          return true if self.is_a? argv
+          return true if is_a? argv
         elsif argv.is_a? Regexp
           return false unless self[i].match(argv)
         elsif argv.nil?
@@ -112,12 +111,12 @@ module Enumerable
       if block_given?
         j += 1 if yield(self[i])
       else
-          if argv.is_a? Numeric
-            j += 1 if self[i] == argv
-          elsif argv.nil?
-            j += 1
-            o += 1 unless self[i]
-          end
+        if argv.is_a? Numeric
+          j += 1 if self[i] == argv
+        elsif argv.nil?
+          j += 1
+          o += 1 unless self[i]
+        end
       end
       i += 1
     end
@@ -134,7 +133,7 @@ module Enumerable
       if block_given?
         result.push(yield(array[i]))
       else
-        return to_enum
+        result = to_enum
       end
       i += 1
     end
@@ -147,18 +146,18 @@ module Enumerable
     memo = '' if array[0].is_a? String
     memo = argv2 if argv2.is_a? Numeric
     memo = argv if argv.is_a? Numeric
-        if block_given?
-          array.my_each{|x| memo = yield(memo, x)}
-        elsif argv2.nil?
-          array.my_each{|x| memo = memo.send(argv, x)}
-        else
-          array.my_each{|x| memo = memo.send(argv2, x)}
-        end
-      memo
+    if block_given?
+      array.my_each { |x| memo = yield(memo, x) }
+    elsif argv2.nil?
+      array.my_each { |x| memo = memo.send(argv, x) }
+    else
+      array.my_each { |x| memo = memo.send(argv2, x) }
     end
+    memo
+  end
 end
 
 def multiply_els(array)
   array = *array
-  array.my_inject {|x, y| x * y}
+  array.my_inject { |x, y| x * y }
 end
