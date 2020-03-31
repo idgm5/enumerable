@@ -37,27 +37,26 @@ module Enumerable
     array
   end
 
-  def my_all?(_argv = 0)
+  def my_all?(argv = nil)
     i = 0
-    j = 0
     array = []
     while i < size
       if block_given?
         return false unless yield(self[i])
-
-        j += 1
-        array.push(self[i])
-        return true if j == size
       else
-        return false unless self[i]
-
-        j += 1
+        if argv.is_a? Class
+          return true if self.is_a? argv
+        elsif argv.is_a? Regexp
+          return false unless self[i].match(argv)
+        elsif argv.nil?
+          return false unless self[i]
+        end
         array.push(self[i])
-        return true if j == size
       end
       i += 1
     end
-    return true if array.empty?
+    return false unless array.empty?
+    true
   end
 
   def my_any?(_argv = 0)
@@ -101,11 +100,15 @@ module Enumerable
     j = 0
     o = 0
     while i < size
-      if argv.is_a? Numeric
-        j += 1 if self[i] == argv
-      elsif argv.nil?
-        j += 1
-        o += 1 unless self[i]
+      if block_given?
+        j += 1 if yield(self[i])
+      else
+          if argv.is_a? Numeric
+            j += 1 if self[i] == argv
+          elsif argv.nil?
+            j += 1
+            o += 1 unless self[i]
+          end
       end
       i += 1
     end
@@ -129,22 +132,26 @@ module Enumerable
     result
   end
 
-  def my_inject(argv = 0, _argv = 0)
+  def my_inject(param, _param = 0)
     i = 0
     array = *self
-    result = argv
+    if param.is_a? String
+       param = nil
+    else
+      param = 0
+    end
+    result = param
     result_no_block = []
     while i < size
       if block_given?
-        result = yield(result, array[i])
+          result = yield(result, array[i])
       else
-        result_no_block.push(array[i])
+          result_no_block.push(array[i])
       end
       i += 1
     end
 
     return result if block_given?
-
     result_no_block.sum
   end
 end
