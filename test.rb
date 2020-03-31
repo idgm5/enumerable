@@ -93,6 +93,8 @@ p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
 
 p ['dog', 'door', 'rod', 'blade'].my_inject{ |memo, word| memo.length > word.length ? memo : word }
 
+p 'multiply_els'
+p [6,7,8].multiply_els(1)
 # longest = %w[cat sheep bear].my_inject do |memo, word|
 #   memo.length > word.length ? memo : word
 # end

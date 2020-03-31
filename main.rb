@@ -141,26 +141,24 @@ module Enumerable
     result
   end
 
-  def my_inject(param, _param = 0)
-    i = 0
+  def my_inject(argv = nil, argv2 = nil)
     array = *self
-    if param.is_a? String
-       param = nil
-    else
-      param = 0
+    memo = 0 if array[0].is_a? Numeric
+    memo = '' if array[0].is_a? String
+    memo = argv2 if argv2.is_a? Numeric
+    memo = argv if argv.is_a? Numeric
+        if block_given?
+          array.my_each{|x| memo = yield(memo, x)}
+        elsif argv2.nil?
+          array.my_each{|x| memo = memo.send(argv, x)}
+        else
+          array.my_each{|x| memo = memo.send(argv2, x)}
+        end
+      memo
     end
-    result = param
-    result_no_block = []
-    while i < size
-      if block_given?
-          result = yield(result, array[i])
-      else
-          result_no_block.push(array[i])
-      end
-      i += 1
-    end
+end
 
-    return result if block_given?
-    result_no_block.sum
-  end
+def multiply_els(array)
+  array = *array
+  array.my_inject {|x, y| x * y}
 end
