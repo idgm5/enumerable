@@ -59,23 +59,26 @@ module Enumerable
     true
   end
 
-  def my_any?(_argv = 0)
+  def my_any?(argv = nil)
     i = 0
     array = []
-    size.times do
+    while i < size
       if block_given?
-        return false unless yield(self[i])
-
-        array.push(self[i])
-        return true
+        return true if yield(self[i])
       else
-        return false unless self[i]
-
+        if argv.is_a? Class
+          return true if self[i].is_a? argv
+        elsif argv.is_a? Regexp
+          return false unless self[i].match(argv)
+        elsif self[i]
+          return true
+        end
         array.push(self[i])
-        return true
       end
+      i += 1
     end
-    return true if array.empty?
+    return false if array.empty?
+    false
   end
 
   def my_none?(_argv = 0)
