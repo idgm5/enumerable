@@ -61,6 +61,7 @@ module Enumerable
       i += 1
     end
     return false unless array.empty?
+
     true
   end
 
@@ -83,6 +84,7 @@ module Enumerable
       i += 1
     end
     return false if array.empty?
+
     false
   end
 
@@ -101,6 +103,7 @@ module Enumerable
           return false if self[i] == argv
         end
         return false if argv.nil?
+
         array.push(self[i])
       end
       i += 1
@@ -167,3 +170,9 @@ def multiply_els(array)
   array = *array
   array.my_inject { |x, y| x * y }
 end
+
+# rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Style/IfInsideElse
