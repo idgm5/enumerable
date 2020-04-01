@@ -43,49 +43,29 @@ module Enumerable
   end
 
   def my_all?(argv = nil)
-    i = 0
-    array = []
-    while i < size
+    array = *self
+    memo = true
       if block_given?
-        return false unless yield(self[i])
+        array.my_each { |x| memo = false unless yield(x) }
+      elsif argv.nil?
+        array.my_each { |x| memo = false unless x }
       else
-        if argv.is_a? Class
-          return true if is_a? argv
-        elsif argv.is_a? Regexp
-          return false unless self[i].match(argv)
-        elsif argv.nil?
-          return false unless self[i]
-        end
-        array.push(self[i])
+        array.my_each { |x| memo = false unless argv === x }
       end
-      i += 1
-    end
-    return false unless array.empty?
-
-    true
+    memo
   end
 
   def my_any?(argv = nil)
-    i = 0
-    array = []
-    while i < size
+    array = *self
+    memo = false
       if block_given?
-        return true if yield(self[i])
+        array.my_each { |x| memo = true if yield(x) }
+      elsif argv.nil?
+        array.my_each { |x| memo = true if x }
       else
-        if argv.is_a? Class
-          return true if self[i].is_a? argv
-        elsif argv.is_a? Regexp
-          return false unless self[i].match(argv)
-        elsif self[i]
-          return true
-        end
-        array.push(self[i])
+        array.my_each { |x| memo = true if argv === x }
       end
-      i += 1
-    end
-    return false if array.empty?
-
-    false
+    memo
   end
 
   def my_none?(argv = nil)
