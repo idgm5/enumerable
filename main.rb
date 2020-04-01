@@ -3,6 +3,7 @@
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable Metrics/ModuleLength
 # rubocop:disable Style/IfInsideElse
+# rubocop:disable Style/CaseEquality
 
 module Enumerable
   def my_each
@@ -45,39 +46,39 @@ module Enumerable
   def my_all?(argv = nil)
     array = *self
     memo = true
-      if block_given?
-        array.my_each { |x| memo = false unless yield(x) }
-      elsif argv.nil?
-        array.my_each { |x| memo = false unless x }
-      else
-        array.my_each { |x| memo = false unless argv === x }
-      end
+    if block_given?
+      array.my_each { |x| memo = false unless yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = false unless x }
+    else
+      array.my_each { |x| memo = false unless argv === x }
+    end
     memo
   end
 
   def my_any?(argv = nil)
     array = *self
     memo = false
-      if block_given?
-        array.my_each { |x| memo = true if yield(x) }
-      elsif argv.nil?
-        array.my_each { |x| memo = true if x }
-      else
-        array.my_each { |x| memo = true if argv === x }
-      end
+    if block_given?
+      array.my_each { |x| memo = true if yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = true if x }
+    else
+      array.my_each { |x| memo = true if argv === x }
+    end
     memo
   end
 
   def my_none?(argv = nil)
     array = *self
     memo = true
-      if block_given?
-        array.my_each { |x| memo = false if yield(x) }
-      elsif argv.nil?
-        array.my_each { |x| memo = false if x }
-      else
-        array.my_each { |x| memo = false if argv === x }
-      end
+    if block_given?
+      array.my_each { |x| memo = false if yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = false if x }
+    else
+      array.my_each { |x| memo = false if argv === x }
+    end
     memo
   end
 
@@ -145,3 +146,4 @@ end
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/ModuleLength
 # rubocop:enable Style/IfInsideElse
+# rubocop:enable Style/CaseEquality
