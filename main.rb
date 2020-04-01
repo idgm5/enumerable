@@ -34,7 +34,7 @@ module Enumerable
       if block_given?
         array.push(self[i]) if yield(self[i])
       else
-        to_enum
+        return to_enum
       end
       i += 1
     end
