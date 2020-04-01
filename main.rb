@@ -69,27 +69,16 @@ module Enumerable
   end
 
   def my_none?(argv = nil)
-    i = 0
-    array = []
-    while i < size
+    array = *self
+    memo = true
       if block_given?
-        return false if yield(self[i])
+        array.my_each { |x| memo = false if yield(x) }
+      elsif argv.nil?
+        array.my_each { |x| memo = false if x }
       else
-        if argv.is_a? Class
-          return false if self[i].is_a? argv
-        elsif argv.is_a? Regexp
-          return false if self[i].match(argv)
-        elsif argv.is_a? Numeric
-          return false if self[i] == argv
-        end
-        return false if argv.nil?
-
-        array.push(self[i])
+        array.my_each { |x| memo = false if argv === x }
       end
-      i += 1
-    end
-    return true if array.empty?
-    true
+    memo
   end
 
   def my_count(argv = nil)
