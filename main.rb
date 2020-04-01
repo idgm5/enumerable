@@ -1,3 +1,10 @@
+# rubocop:disable Metrics/BlockNesting
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/ModuleLength
+# rubocop:disable Style/IfInsideElse
+# rubocop:disable Style/CaseEquality
+
 module Enumerable
   def my_each
     i = 0
@@ -10,9 +17,8 @@ module Enumerable
   end
 
   def my_each_with_index(argv = 0)
-    i = 0 unless argv.positive?
-
-    i = 0 + argv
+    i = 0
+    i = 0 + argv if argv.positive?
     while i < size
       return to_enum unless block_given?
 
@@ -28,7 +34,7 @@ module Enumerable
       if block_given?
         array.push(self[i]) if yield(self[i])
       else
-        to_enum
+        array = to_enum
       end
       i += 1
     end
@@ -37,63 +43,43 @@ module Enumerable
     array
   end
 
-  def my_all?(_argv = 0)
-    i = 0
-    j = 0
-    array = []
-    while i < size
-      if block_given?
-        return false unless yield(self[i])
-
-        j += 1
-        array.push(self[i])
-        return true if j == size
-      else
-        return false unless self[i]
-
-        j += 1
-        array.push(self[i])
-        return true if j == size
-      end
-      i += 1
+  def my_all?(argv = nil)
+    array = *self
+    memo = true
+    if block_given?
+      array.my_each { |x| memo = false unless yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = false unless x }
+    else
+      array.my_each { |x| memo = false unless argv === x }
     end
-    return true if array.empty?
+    memo
   end
 
-  def my_any?(_argv = 0)
-    i = 0
-    array = []
-    size.times do
-      if block_given?
-        return false unless yield(self[i])
-
-        array.push(self[i])
-        return true
-      else
-        return false unless self[i]
-
-        array.push(self[i])
-        return true
-      end
+  def my_any?(argv = nil)
+    array = *self
+    memo = false
+    if block_given?
+      array.my_each { |x| memo = true if yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = true if x }
+    else
+      array.my_each { |x| memo = true if argv === x }
     end
-    return true if array.empty?
+    memo
   end
 
-  def my_none?(_argv = 0)
-    i = 0
-    array = []
-    size.times do
-      if block_given?
-        return true unless yield(self[i])
-
-        array.push(self[i])
-      else
-        return true unless self[i]
-
-        array.push(self[i])
-      end
+  def my_none?(argv = nil)
+    array = *self
+    memo = true
+    if block_given?
+      array.my_each { |x| memo = false if yield(x) }
+    elsif argv.nil?
+      array.my_each { |x| memo = false if x }
+    else
+      array.my_each { |x| memo = false if argv === x }
     end
-    return true if array.empty?
+    memo
   end
 
   def my_count(argv = nil)
@@ -101,11 +87,15 @@ module Enumerable
     j = 0
     o = 0
     while i < size
-      if argv.is_a? Numeric
-        j += 1 if self[i] == argv
-      elsif argv.nil?
-        j += 1
-        o += 1 unless self[i]
+      if block_given?
+        j += 1 if yield(self[i])
+      else
+        if argv.is_a? Numeric
+          j += 1 if self[i] == argv
+        elsif argv.nil?
+          j += 1
+          o += 1 unless self[i]
+        end
       end
       i += 1
     end
@@ -122,29 +112,38 @@ module Enumerable
       if block_given?
         result.push(yield(array[i]))
       else
-        return to_enum
+        result = to_enum
       end
       i += 1
     end
     result
   end
 
-  def my_inject(argv = 0, _argv = 0)
-    i = 0
+  def my_inject(argv = nil, argv2 = nil)
     array = *self
-    result = argv
-    result_no_block = []
-    while i < size
-      if block_given?
-        result = yield(result, array[i])
-      else
-        result_no_block.push(array[i])
-      end
-      i += 1
+    memo = 0 if array[0].is_a? Numeric
+    memo = '' if array[0].is_a? String
+    memo = argv2 if argv2.is_a? Numeric
+    memo = argv if argv.is_a? Numeric
+    if block_given?
+      array.my_each { |x| memo = yield(memo, x) }
+    elsif argv2.nil?
+      array.my_each { |x| memo = memo.send(argv, x) }
+    else
+      array.my_each { |x| memo = memo.send(argv2, x) }
     end
-
-    return result if block_given?
-
-    result_no_block.sum
+    memo
   end
 end
+
+def multiply_els(array)
+  array = *array
+  array.my_inject { |x, y| x * y }
+end
+
+# rubocop:enable Metrics/BlockNesting
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Style/IfInsideElse
+# rubocop:enable Style/CaseEquality

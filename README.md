@@ -6,7 +6,6 @@
 - Ruby
 
 ## Author
-
 👤 **Isaac Gonzalez**
 
 - Github: [@ghamtre](https://github.com/ghamtre)
@@ -17,7 +16,7 @@
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](issues/).
+Feel free to submit a new suggestion > [issues page](issues/).
 
 ## Show your support
 
