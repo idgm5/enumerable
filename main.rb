@@ -28,17 +28,10 @@ module Enumerable
   end
 
   def my_select
-    i = 0
+    obj = self
     array = []
-    while i < size
-      if block_given?
-        array.push(self[i]) if yield(self[i])
-      else
-        array = to_enum
-      end
-      i += 1
-    end
-    return nil if array.empty?
+    obj.length.times { |i| array.push(obj[i]) if block_given? && yield(obj[i]) }
+    return to_enum unless block_given?
 
     array
   end
@@ -137,8 +130,8 @@ module Enumerable
 end
 
 def multiply_els(array)
-  array = *array
-  array.my_inject { |x, y| x * y }
+  # array = *array
+  array.my_inject(1, :*)
 end
 
 # rubocop:enable Metrics/BlockNesting
