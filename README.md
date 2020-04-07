@@ -6,7 +6,7 @@
 - Ruby
 
 ## Getting started
-1. You need to have ruby environment installed. Click here for instructions
+1. You need to have ruby environment installed. [Click here for instructions](https://www.ruby-lang.org/en/documentation/installation/)
 2. Clone this repository ```https://github.com/ghamtre/enumerable.git```
 3. Inside enumerable directory ```run ruby main.rb```
 
