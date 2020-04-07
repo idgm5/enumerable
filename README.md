@@ -13,7 +13,8 @@
 ## Testing Instructions
 - You can run the rspec testing directly from enumerable directory.
 ![image](https://i.imgur.com/3C0LWYi.png)
-- To modify or add more tests to the project, you can edit main_spec.rb file inside of the spec directory.
+- To modify or add more tests to the project, you can edit ```main_spec.rb``` file inside of the spec directory.
+- Any new changes to this file must be documented in a pull request before merging.
 ## Author
 👤 **Isaac Gonzalez**
 
