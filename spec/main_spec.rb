@@ -3,6 +3,8 @@ require './main.rb'
 
 RSpec.describe Enumerable do
   let(:array) { [11, 2, 3, 56] }
+  let(:array_of_strings) { %w[a b c d] }
+  let(:range) { 5..8 }
 
   describe '.my_each' do
     context 'when receive a block' do
@@ -10,6 +12,18 @@ RSpec.describe Enumerable do
         result = []
         array.my_each { |x| result.push(x) }
         expect(result).to(eq(array))
+      end
+
+      it 'push each value to the result array' do
+        result = []
+        array_of_strings.my_each { |x| result.push(x) }
+        expect(result).to(eq(array_of_strings))
+      end
+
+      it 'push each value to the result array' do
+        result = []
+        range.my_each { |x| result.push(x) }
+        expect(result).to(eq(range.to_a))
       end
     end
 
@@ -25,7 +39,19 @@ RSpec.describe Enumerable do
       it 'push each value to the result array with index' do
         result = []
         array.my_each_with_index { |x, y| result.push([x, y]) }
-        expect(result[0][1]).to(eq(0))
+        expect(result).to(eq([[11, 0], [2, 1], [3, 2], [56, 3]]))
+      end
+
+      it 'push each value to the result array with index' do
+        result = []
+        array_of_strings.my_each_with_index { |x, y| result.push([x, y]) }
+        expect(result).to(eq([['a', 0], ['b', 1], ['c', 2], ['d', 3]]))
+      end
+
+      it 'push each value to the result array with index' do
+        result = []
+        range.my_each_with_index { |x, y| result.push([x, y]) }
+        expect(result).to(eq([[5, 0], [6, 1], [7, 2], [8, 3]]))
       end
     end
 
@@ -41,6 +67,16 @@ RSpec.describe Enumerable do
       it 'returns selected values' do
         result = array.my_select { |x| x > 5 }
         expect(result).to eq([11, 56])
+      end
+
+      it 'returns selected values' do
+        result = array_of_strings.my_select { |x| x == 'c' }
+        expect(result).to eq(['c'])
+      end
+
+      it 'returns selected values' do
+        result = range.my_select { |x| x > 5 }
+        expect(result).to eq([6, 7, 8])
       end
     end
 
@@ -130,6 +166,12 @@ RSpec.describe Enumerable do
         expect(array.my_count).to eq 4
       end
     end
+
+    context 'when receive an argument' do
+      it 'returns number of values that equals to the argument condition' do
+        expect(array.my_count == 3).to eq false
+      end
+    end
   end
 
   describe '.my_map' do
@@ -164,6 +206,14 @@ RSpec.describe Enumerable do
     context 'when receive a block' do
       it 'combines all elements of enum by applying a binary operation, specified by a block' do
         expect(array.my_inject { |sum, n| sum + n }).to eq 72
+      end
+
+      it 'combines all elements of enum by applying a binary operation, specified by a block' do
+        expect(array_of_strings.my_inject { |sum, n| sum + n }).to eq 'abcd'
+      end
+
+      it 'combines all elements of enum by applying a binary operation, specified by a block' do
+        expect(range.my_inject { |sum, n| sum + n }).to eq 26
       end
     end
 

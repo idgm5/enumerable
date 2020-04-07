@@ -8,10 +8,12 @@
 module Enumerable
   def my_each
     i = 0
+    array = *self
+
     while i < size
       return to_enum unless block_given?
 
-      yield(self[i])
+      yield(array[i])
       i += 1
     end
   end
@@ -19,16 +21,18 @@ module Enumerable
   def my_each_with_index(argv = 0)
     i = 0
     i = 0 + argv if argv.positive?
+    array = *self
+
     while i < size
       return to_enum unless block_given?
 
-      yield(self[i], i)
+      yield(array[i], i)
       i += 1
     end
   end
 
   def my_select
-    obj = self
+    obj = *self
     array = []
     obj.length.times { |i| array.push(obj[i]) if block_given? && yield(obj[i]) }
     return to_enum unless block_given?
